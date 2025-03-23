@@ -1,23 +1,14 @@
 package com.solutions.sales.controllers;
 
+import com.solutions.sales.entities.Category;
+import com.solutions.sales.services.CategorySrv;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.solutions.sales.entities.Category;
-import com.solutions.sales.entities.Product;
-import com.solutions.sales.entities.Tax;
-import com.solutions.sales.repos.CategoryRepository;
-import com.solutions.sales.services.CategorySrv;
-import com.solutions.sales.services.ProductSrv;
-import com.solutions.sales.services.TaxSrv;
-
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
-
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-
 
 @RestController
 @RequestMapping("/category")
@@ -32,6 +23,7 @@ public class CategoryCntrl {
 
     /**
      * ToDO: create a DTO specific to return instead of returning Entities
+     *
      * @return
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

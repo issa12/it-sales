@@ -8,14 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class ExceptionAdviser {
-
     @ExceptionHandler(AppException.class)
     @ResponseBody
     public ResponseEntity<String> handleAppException(AppException ex) {
         return new ResponseEntity<>(String.format("Error: %s, Code: [%s] ",  ex.getMessage(), ex.getCode()), HttpStatus.BAD_REQUEST);
     }
 
-    
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<String> handleGenericException(AppException ex) {

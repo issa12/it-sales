@@ -52,7 +52,6 @@ class SalesMapperTest {
     @Test
     void testMapStringToReqInvoice_EmptyPayload() {
         String payload = "";
-
         assertThrows(InvalidPayloadException.class, () -> salesMapper.mapStringToReqInvoice(payload));
     }
 
