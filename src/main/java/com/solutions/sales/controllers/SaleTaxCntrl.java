@@ -1,7 +1,6 @@
 package com.solutions.sales.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +10,7 @@ import com.solutions.sales.entities.Tax;
 import com.solutions.sales.repos.CategoryRepository;
 import com.solutions.sales.repos.ProductRepository;
 import com.solutions.sales.repos.TaxRepository;
+import com.solutions.sales.services.SaleTaxSrv;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,27 +20,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/sales")
 @Slf4j
-public class SalesTax {
+public class SaleTaxCntrl {
 
-    final private TaxRepository taxRepository;
-    final private CategoryRepository categoryRepository;
-    final private ProductRepository productRepository;
+    final private SaleTaxSrv saleTaxSrv;
 
-    public SalesTax(TaxRepository taxRepository, CategoryRepository categoryRepository,
-            ProductRepository productRepository) {
-        this.taxRepository = taxRepository;
-        this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
+    public SaleTaxCntrl(SaleTaxSrv saleTaxSrv) {
+        this.saleTaxSrv = saleTaxSrv;
     }
 
     @GetMapping("/tax")
-    public String getSalesTaxe() {
-        List<Tax> taxes = taxRepository.findAll();
-        String ss = taxes.stream().map(t -> t.toString()).collect(Collectors.joining(","));
-
-        return ss;
+    public List<Tax>  getSalesTaxe() {
+        return null;
     }
-
     @PostMapping("")
     public String postMethodName(@RequestBody String entity) {
 

@@ -1,5 +1,8 @@
 package com.solutions.sales.entities;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -18,6 +21,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+/*
+ * Cache can be used to store the data products.
+ */
 public class Product {
     @Id
     private int id;
@@ -25,5 +31,5 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category Category;
+    private Category category;
 }

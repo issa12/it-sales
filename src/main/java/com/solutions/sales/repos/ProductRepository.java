@@ -1,5 +1,6 @@
 package com.solutions.sales.repos;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ import com.solutions.sales.entities.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     
     Optional<Product> findByName(String name);
+    List<Product> findByNameIn(Collection<String> names);
+
 }
