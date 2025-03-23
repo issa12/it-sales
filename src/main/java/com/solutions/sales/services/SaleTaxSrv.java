@@ -23,7 +23,11 @@ import com.solutions.sales.exceptions.DBException;
 import com.solutions.sales.repos.ProductRepository;
 import com.solutions.sales.repos.TaxRepository;
 
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class SaleTaxSrv {
     
     @Value("${sales.import.tax.name:imported}")
@@ -82,10 +86,12 @@ public class SaleTaxSrv {
 
             totalTax = totalTax.add(resPurchasedProduct.getTax());
             totalPriceWithTax = totalPriceWithTax.add(resPurchasedProduct.getPriceWithTax());
-
+            
             responseProducts.add(resPurchasedProduct);
             
         }
+        log.info("Invoice, Items: {}; totalTax: {}, totalPriceWithTax : {}", 
+            responseProducts.size(), totalTax, totalPriceWithTax);
         return ResInvoince.builder().purchasedProducts(responseProducts).totalTax(totalTax).totalPriceWithTax(totalPriceWithTax).build();
     }
 
@@ -95,7 +101,8 @@ public class SaleTaxSrv {
         BigDecimal taxValue = priceWithoutTax.multiply(taxRate);
         BigDecimal importTaxValue = imported ? priceWithoutTax.multiply(importedRate): BigDecimal.ZERO;
         BigDecimal totalTax = taxValue.add(importTaxValue).setScale(2, RoundingMode.HALF_UP);
-
+        log.info("ReqProd: {}, Total priceWithoutTax: {}, taxValue: {}, importTaxValue: {}, totalTax: {}", 
+            reqProd.getProductName(), priceWithoutTax, taxValue, importTaxValue, totalTax);
         return  ResPurchasedProduct.builder()
             .productName(reqProd.getProductName())
             .quantity(reqProd.getQuantity())

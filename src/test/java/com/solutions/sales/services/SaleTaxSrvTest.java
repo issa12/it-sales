@@ -16,10 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
 import com.solutions.sales.TestUtils;
 import com.solutions.sales.dto.ReqInvoice;
 import com.solutions.sales.dto.ReqPurchasedProduct;
