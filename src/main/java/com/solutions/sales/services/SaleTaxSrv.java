@@ -7,8 +7,8 @@ import com.solutions.sales.dto.ResPurchasedProduct;
 import com.solutions.sales.entities.Product;
 import com.solutions.sales.entities.Tax;
 import com.solutions.sales.exceptions.DBException;
-import com.solutions.sales.repos.ProductRepository;
-import com.solutions.sales.repos.TaxRepository;
+import com.solutions.sales.repos.ProductRepo;
+import com.solutions.sales.repos.TaxRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,10 @@ public class SaleTaxSrv {
     @Value("${sales.import.tax.name:imported}")
     private String importedTaxName;
 
-    private final TaxRepository taxRepository;
-    private final ProductRepository productRepository;
+    private final TaxRepo taxRepository;
+    private final ProductRepo productRepository;
 
-    public SaleTaxSrv(TaxRepository taxRepository, ProductRepository productRepository) {
+    public SaleTaxSrv(TaxRepo taxRepository, ProductRepo productRepository) {
         this.taxRepository = taxRepository;
         this.productRepository = productRepository;
     }

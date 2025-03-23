@@ -24,17 +24,17 @@ import com.solutions.sales.dto.ResPurchasedProduct;
 import com.solutions.sales.entities.Product;
 import com.solutions.sales.entities.Tax;
 import com.solutions.sales.exceptions.DBException;
-import com.solutions.sales.repos.ProductRepository;
-import com.solutions.sales.repos.TaxRepository;
+import com.solutions.sales.repos.ProductRepo;
+import com.solutions.sales.repos.TaxRepo;
 
 
 class SaleTaxSrvTest {
 
     @Mock
-    private TaxRepository taxRepository;
+    private TaxRepo taxRepository;
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductRepo productRepository;
 
     @InjectMocks
     private SaleTaxSrv saleTaxService;

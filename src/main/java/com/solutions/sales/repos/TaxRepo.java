@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TaxRepository extends JpaRepository<Tax, Integer> {
+public interface TaxRepo extends JpaRepository<Tax, Integer> {
 
     Optional<Tax> findByName(String name);
     List<Tax> findByNameIn(Collection<String> name);

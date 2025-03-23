@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProductRepo extends JpaRepository<Product, Integer> {
     
     Optional<Product> findByName(String name);
     List<Product> findByNameIn(Collection<String> names);
