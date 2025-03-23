@@ -96,12 +96,15 @@ public class SaleTaxSrv {
     }
 
     private ResPurchasedProduct buildRresPurchasedProd(ReqPurchasedProduct reqProd, Product prod, BigDecimal importedRate, Boolean imported) {
+    
         BigDecimal taxRate = prod.getCategory().getTax() == null ? BigDecimal.ZERO : prod.getCategory().getTax().getRate().divide(BigDecimal.valueOf(100));
         BigDecimal priceWithoutTax = reqProd.getPrice().multiply(BigDecimal.valueOf(reqProd.getQuantity()));
         
-        BigDecimal taxValue = priceWithoutTax.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal importTaxValue = imported ? priceWithoutTax.multiply(importedRate).setScale(2, RoundingMode.HALF_UP): BigDecimal.ZERO;
+        BigDecimal taxValue = roundToNearest05(priceWithoutTax.multiply(taxRate));
+        BigDecimal importTaxValue = imported ? roundToNearest05(priceWithoutTax.multiply(importedRate)) : BigDecimal.ZERO;
+
         BigDecimal totalTax = taxValue.add(importTaxValue);
+        BigDecimal priceWithTax = priceWithoutTax.add(totalTax);
         log.info("ReqProd: {}, Total priceWithoutTax: {}, taxValue: {}, importTaxValue: {}, totalTax: {}", 
             reqProd.getProductName(), priceWithoutTax, taxValue, importTaxValue, totalTax);
         return  ResPurchasedProduct.builder()
@@ -110,7 +113,7 @@ public class SaleTaxSrv {
             .imported(reqProd.isImported())
             .price(reqProd.getPrice())
             .tax(totalTax)
-            .priceWithTax(priceWithoutTax.add(totalTax)).build();
+            .priceWithTax(priceWithTax).build();
     }
 
     private Tax getImportTax() {
@@ -119,6 +122,11 @@ public class SaleTaxSrv {
         return imporTax.orElseGet(() -> {
             throw new DBException("Import Tax not found");
         });
+    }
+
+    public static BigDecimal roundToNearest05(BigDecimal number) {
+        BigDecimal increment = new BigDecimal("0.05");
+        return number.divide(increment, 0, RoundingMode.HALF_UP).multiply(increment);
     }
 
 

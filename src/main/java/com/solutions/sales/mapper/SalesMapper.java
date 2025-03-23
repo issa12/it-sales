@@ -48,6 +48,10 @@ public class SalesMapper {
             List<ReqPurchasedProduct>  reqPurchasedProductList = new ArrayList<>();  
             String[] lines = payLoad.split("\n");
             for (String line : lines) {
+                /*
+                 *  Careful! Imported word can be anywher :  example: 
+                 *  1 box of imported chocolates at 11.25
+                 */
                 boolean isImported = line.contains(" imported " );
                 line = line.replace("imported ", "");
 
