@@ -5,6 +5,11 @@
 - For DTO:
     - "Req" for request (input) classes
     - "Res" for response (output) classes
+- For Services:
+    - add suffix "Srv"
+- For Controles:
+    - add suffix "Cntrl"
+
 
 ## Compile 
 Use mvnw (maven wrapper) 
@@ -12,8 +17,13 @@ Use mvnw (maven wrapper)
 - to install: .\mvnw install
 
 ## Test
-To Test we can use Swagger or PostMan
-- on localhost: http://localhost:8080/sales/swagger-ui/index.html
+- In memory H2 Database is used to test 
+    - 'url' http://localhost:8080/sales/h2-console 
+    - username: sales
+    - password: sales
+
+To Test the principle API end-to-end 
+- we can use Swagger or PostMan using : http://localhost:8080/sales/swagger-ui/index.html
 - or using curl:
 ```
 curl -X 'POST' \
