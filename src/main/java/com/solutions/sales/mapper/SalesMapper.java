@@ -15,20 +15,30 @@ import com.solutions.sales.exceptions.InvalidPayloadException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * SalesMapper class is responsible for mapping the payLoad to  #ReqInvoice and #ResInvoince to String.
+ * Note: as we are using custom mapping we can register a mapper in Jackson to handle the conversion 
+ * without calling the mapper explicitly in our code
+ */
 @Component
 @Slf4j
 public class SalesMapper {
-        /**
+        /*
          * Pattern to match the input string for each line in request payload
          * Pattern:
-         * [Number] [Optional: imported] [Any Word] at [Decimal Number]
+         * [Number]  [Optional: Word] [Optional: imported] [Any Word] at [Decimal Number]
          * 
          */
-        //final Pattern pattern = Pattern.compile( "(\\d+)\\s+(Imported\\s+)?(\\w+)\\s+at\\s+(\\d+)");
-        //final Pattern pattern = Pattern.compile(  "(\\d+)\\s+(imported\\s+)?(\\w+)\\s+at\\s+(\\d*\\.?\\d*)");
-        final Pattern pattern = Pattern.compile ("(\\d+)\\s+(imported\\s+)?([a-zA-Z]+(\\s+[a-zA-Z]+)*)\\s+at\\s+(-?\\d+(\\.\\d+)?)");
+        final Pattern pattern = Pattern.compile ("(\\d+)\\s+([a-zA-Z]+(\\s+[a-zA-Z]+)*)\\s+at\\s+(-?\\d+(\\.\\d+)?)");
         
-
+        /**
+         * convert the input string to ReqInvoice the format of the input string is as follows
+         * [Number] [imported] [Any Word] at [Decimal Number]
+         * [Number] [Any Word] at [Decimal Number]
+         * ...
+         * @param payLoad
+         * @return
+         */
         public ReqInvoice mapStringToReqInvoice(String payLoad) {
             log.debug("SalesMapper.mapStringToReqInvoice mapping payload to ReqInvoice: {}", payLoad);
             if (payLoad == null || payLoad.isEmpty()) {
@@ -38,24 +48,18 @@ public class SalesMapper {
             List<ReqPurchasedProduct>  reqPurchasedProductList = new ArrayList<>();  
             String[] lines = payLoad.split("\n");
             for (String line : lines) {
+                boolean isImported = line.contains(" imported " );
+                line = line.replace("imported ", "");
+
                 Matcher matcher = pattern.matcher(line.trim());
                 if (matcher.find()) {
+                    
                     // if imported is present then price will be at group 5 else at group 4
-                    boolean isImported = matcher.group(2) != null;
-                    BigDecimal price ;
-                    if (isImported ) {
-                        price = new BigDecimal(matcher.group(5));
-                    }
-                    else {
-                        price = new BigDecimal(matcher.group(5));
-                    }
-                    
-                    
                     reqPurchasedProductList.add(ReqPurchasedProduct.builder()
                             .quantity(Integer.parseInt(matcher.group(1)))
-                            .imported(matcher.group(2) != null)
-                            .productName(matcher.group(3))
-                            .price(price)
+                            .imported(isImported)
+                            .productName(matcher.group(2))
+                            .price(new BigDecimal(matcher.group(4)))
                             .build());
                     
                 }
@@ -65,7 +69,7 @@ public class SalesMapper {
         }
 
 
-        public String mapStringToSeqInvoice(ResInvoince resInvoince) {
+        public String mapResInvoinceToString(ResInvoince resInvoince) {
             if (resInvoince == null || resInvoince.getPurchasedProducts().isEmpty()) {
                 throw new IllegalArgumentException("Invalid Output!");
             }

@@ -88,7 +88,7 @@ class SalesMapperTest {
                 .totalPriceWithTax(new BigDecimal("29.98"))
                 .build();
 
-        String result = salesMapper.mapStringToSeqInvoice(resInvoince);
+        String result = salesMapper.mapResInvoinceToString(resInvoince);
 
         String expected = "1 Imported book at 13.49\n" +
                           "2 music CD at 16.49\n" +
@@ -103,6 +103,6 @@ class SalesMapperTest {
                 .purchasedProducts(Collections.emptyList())
                 .build();
 
-        assertThrows(IllegalArgumentException.class, () -> salesMapper.mapStringToSeqInvoice(resInvoince));
+        assertThrows(IllegalArgumentException.class, () -> salesMapper.mapResInvoinceToString(resInvoince));
     }
 }

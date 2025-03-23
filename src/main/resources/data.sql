@@ -14,6 +14,6 @@ INSERT INTO PRODUCTS (id, name, category_id) VALUES (2, 'music CD',  1);
 INSERT INTO PRODUCTS (id, name, category_id) VALUES (3, 'chocolate bar',  4);
 INSERT INTO PRODUCTS (id, name, category_id) VALUES (4, 'box of chocolates',  4);
 INSERT INTO PRODUCTS (id, name, category_id) VALUES (5, 'bottle of perfume',  1);
-INSERT INTO PRODUCTS (id, name, category_id) VALUES (6, 'packet of headache',  3);
+INSERT INTO PRODUCTS (id, name, category_id) VALUES (6, 'packet of headache pills',  3);
 INSERT INTO PRODUCTS (id, name, category_id) VALUES (7, 'phone',  4);
 

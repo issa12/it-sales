@@ -80,7 +80,7 @@ public class SaleTaxSrv {
         for (ReqPurchasedProduct pProd : purchasedProducts) {
             Product p = products.get(pProd.getProductName());
             if (p == null) {
-                throw new DBException(String.format("Product {}not found ", pProd.getProductName()));
+                throw new DBException(String.format("Product [%s] not found ", pProd.getProductName()));
             }   
             ResPurchasedProduct resPurchasedProduct =  buildRresPurchasedProd(pProd, p,importedRate, pProd.isImported());
 
@@ -98,9 +98,10 @@ public class SaleTaxSrv {
     private ResPurchasedProduct buildRresPurchasedProd(ReqPurchasedProduct reqProd, Product prod, BigDecimal importedRate, Boolean imported) {
         BigDecimal taxRate = prod.getCategory().getTax() == null ? BigDecimal.ZERO : prod.getCategory().getTax().getRate().divide(BigDecimal.valueOf(100));
         BigDecimal priceWithoutTax = reqProd.getPrice().multiply(BigDecimal.valueOf(reqProd.getQuantity()));
-        BigDecimal taxValue = priceWithoutTax.multiply(taxRate);
-        BigDecimal importTaxValue = imported ? priceWithoutTax.multiply(importedRate): BigDecimal.ZERO;
-        BigDecimal totalTax = taxValue.add(importTaxValue).setScale(2, RoundingMode.HALF_UP);
+        
+        BigDecimal taxValue = priceWithoutTax.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal importTaxValue = imported ? priceWithoutTax.multiply(importedRate).setScale(2, RoundingMode.HALF_UP): BigDecimal.ZERO;
+        BigDecimal totalTax = taxValue.add(importTaxValue);
         log.info("ReqProd: {}, Total priceWithoutTax: {}, taxValue: {}, importTaxValue: {}, totalTax: {}", 
             reqProd.getProductName(), priceWithoutTax, taxValue, importTaxValue, totalTax);
         return  ResPurchasedProduct.builder()
